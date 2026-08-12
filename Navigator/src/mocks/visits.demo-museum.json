@@ -1,0 +1,4 @@
+[
+  { "id": "visita-base", "title": "Visita essenziale (30 min)" },
+  { "id": "visita-approfondita", "title": "Visita approfondita (60 min)" }
+]

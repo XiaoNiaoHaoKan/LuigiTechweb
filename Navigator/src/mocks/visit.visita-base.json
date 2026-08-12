@@ -1,0 +1,19 @@
+{
+  "id": "visita-base",
+  "title": "Visita essenziale (30 min)",
+  "floorplan": "/img/floor-demo.png",
+  "steps": [
+    {
+      "target": { "type": "opera", "id": "Q126599960" },
+      "directions": "Vai in sala 1, vicino alla parete di sinistra.",
+      "map": { "x": 32, "y": 58 },
+      "items": ["item-001-3s-med", "item-001-15s-med", "item-001-40s-med"]
+    },
+    {
+      "target": { "type": "opera", "id": "Q000000002" },
+      "directions": "Prosegui verso la sala successiva.",
+      "map": { "x": 68, "y": 42 },
+      "items": ["item-001-3s-med", "item-001-15s-med", "item-001-40s-med"]
+    }
+  ]
+}

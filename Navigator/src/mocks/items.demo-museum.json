@@ -1,0 +1,23 @@
+[
+  {
+    "id": "item-001-3s-med",
+    "subject": { "opera": "Q126599960" },
+    "duration": "3s",
+    "languageLevel": "medio",
+    "text": "Ritratto di frate in veste di San Tommaso d’Aquino."
+  },
+  {
+    "id": "item-001-15s-med",
+    "subject": { "opera": "Q126599960" },
+    "duration": "15s",
+    "languageLevel": "medio",
+    "text": "Opera attribuita a Girolamo Mazzola Bedoli, rappresenta un frate con attributi di San Tommaso d’Aquino."
+  },
+  {
+    "id": "item-001-40s-med",
+    "subject": { "opera": "Q126599960" },
+    "duration": "40s",
+    "languageLevel": "medio",
+    "text": "In questo ritratto il soggetto è presentato con una posa composta e uno sguardo misurato. L’opera si colloca nel clima del manierismo emiliano, con attenzione al chiaroscuro e alla resa dei tessuti."
+  }
+]

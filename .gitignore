@@ -1,0 +1,24 @@
+# Dipendenze Node
+node_modules/
+*/node_modules/
+
+# Variabili ambiente
+.env
+.env.local
+.env.*.local
+
+# Log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build temporanee
+dist/
+build/
+
+# File sistema/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
