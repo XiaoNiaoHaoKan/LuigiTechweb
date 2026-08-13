@@ -1,0 +1,96 @@
+[{
+  "_id": {
+    "$oid": "6a7c72c5b1ee7748006b33c1"
+  },
+  "museumId": "01",
+  "objectId": "01",
+  "title": "St Cassiano",
+  "text": "St Cassiano è un dipinto a olio su pannello di Amico Aspertini (attivo tra il XV e il XVI secolo), che raffigura il santo come un anziano studioso seduto alla scrivania, circondato da libri e talvolta da studenti.",
+  "duration": 3,
+  "languageLevel": "infantile",
+  "author": "Amica Aspertini",
+  "license": "Free",
+  "price": 1,
+  "room": "01",
+  "tags": [],
+  "externalId": "",
+  "createdAt": {
+    "$date": "2026-08-12T13:19:01.664Z"
+  },
+  "updatedAt": {
+    "$date": "2026-08-12T13:19:01.664Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a7c735ab1ee7748006b33c4"
+  },
+  "museumId": "01",
+  "objectId": "02",
+  "title": "Mendicanti sui gradini del monastero Aracoeli. Impressioni di Roma",
+  "text": "Sebbene il titolo identifichi l'edificio sullo sfondo come la Basilica di Santa Maria in Aracoeli, lo studioso Maltese ha messo in dubbio questa identificazione, sostenendo che la chiesa rappresentata sia in realtà San Gregorio al Celio.  L'opera è considerata tra i primi quadri italiani impegnati nel verismo sociale, risentendo dell'influsso di Cammarano e distinguendosi per il particolare taglio orizzontale della composizione.",
+  "duration": 15,
+  "languageLevel": "infantile",
+  "author": "Federico Zandomeneghi",
+  "license": "Free",
+  "price": 1,
+  "room": "01",
+  "tags": [],
+  "externalId": "Q1255",
+  "createdAt": {
+    "$date": "2026-08-12T13:21:30.439Z"
+  },
+  "updatedAt": {
+    "$date": "2026-08-12T13:21:30.439Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a7c749eb1ee7748006b33c7"
+  },
+  "museumId": "01",
+  "objectId": "03",
+  "title": "Portrait of Bianca Maria Sforza (1425-1468)",
+  "text": "Il Ritratto di Bianca Maria Visconti (1425-1468) non è un'opera pittorica singola universalmente canonica, ma si riferisce a diverse raffigurazioni storiche di questa duchessa di Milano, moglie di Francesco Sforza.",
+  "duration": 3,
+  "languageLevel": "infantile",
+  "author": "Bonifacio Bembo",
+  "license": "Free",
+  "price": 2,
+  "room": "02",
+  "tags": [],
+  "externalId": "Q1265",
+  "createdAt": {
+    "$date": "2026-08-12T13:26:54.805Z"
+  },
+  "updatedAt": {
+    "$date": "2026-08-12T13:26:54.805Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a7c751eb1ee7748006b33ca"
+  },
+  "museumId": "01",
+  "objectId": "04",
+  "title": "Portrait of friar, possibly Antonio Michele Ghislieri, as st. Thomas",
+  "text": "Gli studiosi ipotizzano che il frate raffigurato in veste di san Tommaso (fondatore della Scolastica e grande accusatore dell’eresia protestante) sia il domenicano Antonio Michele Ghislieri, futuro papa Pio V, che si trovava a Parma intorno al 1540 prima di salire al soglio pontificio,  e che venne nominato Grande Inquisitore nel 1558. ",
+  "duration": 3,
+  "languageLevel": "semplice",
+  "author": "Girolamo Mazzola Bedoli",
+  "license": "Free",
+  "price": 1,
+  "room": "02",
+  "tags": [],
+  "externalId": "Q1266",
+  "createdAt": {
+    "$date": "2026-08-12T13:29:02.912Z"
+  },
+  "updatedAt": {
+    "$date": "2026-08-12T13:29:02.912Z"
+  },
+  "__v": 0
+}]

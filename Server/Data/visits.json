@@ -1,0 +1,92 @@
+[{
+  "_id": {
+    "$oid": "6a7c7587b1ee7748006b33cf"
+  },
+  "title": "Dipinti sala 1 e 2",
+  "synchronized": false,
+  "currentIndex": 0,
+  "isPlaying": false,
+  "sequence": [
+    {
+      "itemId": {
+        "$oid": "6a7c72c5b1ee7748006b33c1"
+      },
+      "order": 1,
+      "_id": {
+        "$oid": "6a7c7587b1ee7748006b33d0"
+      }
+    },
+    {
+      "itemId": {
+        "$oid": "6a7c735ab1ee7748006b33c4"
+      },
+      "order": 2,
+      "_id": {
+        "$oid": "6a7c7587b1ee7748006b33d1"
+      }
+    },
+    {
+      "itemId": {
+        "$oid": "6a7c749eb1ee7748006b33c7"
+      },
+      "order": 3,
+      "_id": {
+        "$oid": "6a7c7587b1ee7748006b33d2"
+      }
+    },
+    {
+      "itemId": {
+        "$oid": "6a7c751eb1ee7748006b33ca"
+      },
+      "order": 4,
+      "_id": {
+        "$oid": "6a7c7587b1ee7748006b33d3"
+      }
+    }
+  ],
+  "quiz": [],
+  "createdAt": {
+    "$date": "2026-08-12T13:30:47.103Z"
+  },
+  "updatedAt": {
+    "$date": "2026-08-12T13:30:47.103Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a7c7599b1ee7748006b33db"
+  },
+  "title": "Dipinti sala 1",
+  "synchronized": false,
+  "currentIndex": 0,
+  "isPlaying": false,
+  "sequence": [
+    {
+      "itemId": {
+        "$oid": "6a7c72c5b1ee7748006b33c1"
+      },
+      "order": 1,
+      "_id": {
+        "$oid": "6a7c7599b1ee7748006b33dc"
+      }
+    },
+    {
+      "itemId": {
+        "$oid": "6a7c735ab1ee7748006b33c4"
+      },
+      "order": 2,
+      "_id": {
+        "$oid": "6a7c7599b1ee7748006b33dd"
+      }
+    }
+  ],
+  "quiz": [],
+  "createdAt": {
+    "$date": "2026-08-12T13:31:05.308Z"
+  },
+  "updatedAt": {
+    "$date": "2026-08-12T13:31:05.308Z"
+  },
+  "__v": 0
+}]
