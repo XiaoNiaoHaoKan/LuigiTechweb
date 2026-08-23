@@ -1,13 +1,17 @@
 <template>
-  <div class="widget-box">
-    <p class="paragraph"><b>Scansiona il QR del museo</b></p>
+  <div class="aa-card">
+    <h3 class="aa-card__title">Scansione QR</h3>
+
+    <p class="aa-card__meta">
+      Consenti l'accesso alla fotocamera oppure carica una foto del codice.
+    </p>
 
     <video
       ref="videoRef"
       autoplay
       playsinline
       muted
-      style="width:100%; border-radius:12px;"
+      style="width:100%; border-radius:14px; margin-top:10px; border:1px solid rgba(19,52,88,0.2); background:#e9eef2;"
     ></video>
 
     <div class="mt-3 d-flex gap-2 flex-wrap">
@@ -25,7 +29,7 @@
       </label>
     </div>
 
-    <p v-if="error" class="paragraph mt-3" style="color:#c0392b;">
+    <p v-if="error" class="aa-card__meta mt-3 error-text">
       {{ error }}
     </p>
   </div>

@@ -2,11 +2,11 @@
   <AppShell title="Navigator">
     <div class="aa-page-stack">
       <div v-if="loading" class="aa-panel">
-        <p class="aa-card__meta">Caricamento visita…</p>
+        <p class="aa-card__meta">Caricamento visita...</p>
       </div>
 
       <div v-else-if="error" class="aa-panel">
-        <p class="aa-card__meta" style="color:#c0392b;">
+        <p class="aa-card__meta error-text">
           {{ error }}
         </p>
       </div>
@@ -22,6 +22,12 @@
             Tappa {{ stepIndex + 1 }} di {{ steps.length }} · Livello dettaglio:
             <b>{{ preferredDuration }}</b>
           </p>
+
+          <div class="tag-row mt-3">
+            <span class="tag">Guida vocale</span>
+            <span class="tag">Indicazioni logistiche</span>
+            <span class="tag">Comandi rapidi</span>
+          </div>
         </section>
 
         <!-- Contenuto + mappa -->
@@ -36,8 +42,15 @@
               Testo selezionato per il livello di dettaglio corrente.
             </p>
 
+            <img
+              v-if="currentImage"
+              :src="currentImage"
+              :alt="currentItemTitle"
+              class="navigator-page__image"
+            />
+
             <p class="aa-card__text" style="white-space: pre-wrap;">
-              {{ currentText }}
+              {{ currentText || "Nessun contenuto disponibile per questa tappa." }}
             </p>
 
             <div class="aa-actions">
@@ -72,7 +85,7 @@
               </button>
 
               <button
-                class="button secondary"
+                class="button accent"
                 type="button"
                 @click="moreDetail"
               >
@@ -83,7 +96,7 @@
             <p
               v-if="hint"
               class="aa-card__meta mt-3"
-              style="opacity:0.8;"
+              style="opacity:0.86;"
             >
               {{ hint }}
             </p>
@@ -204,6 +217,8 @@ const currentItem = computed(() => {
 });
 
 const currentText = computed(() => currentItem.value?.text ?? "");
+const currentImage = computed(() => currentItem.value?.image ?? "");
+const currentItemTitle = computed(() => currentItem.value?.title ?? "Immagine opera");
 
 onMounted(async () => {
   try {
@@ -232,12 +247,24 @@ function prevStep() {
 
 function moreDetail() {
   const next = nextDuration(preferredDuration.value);
+  if (next === preferredDuration.value) {
+    hint.value = "Sei gia al massimo livello di dettaglio.";
+    return;
+  }
+
   preferredDuration.value = next;
-  hint.value = next === preferredDuration.value ? "" : "";
+  hint.value = "Maggiore dettaglio attivato.";
 }
 
 function lessDetail() {
-  preferredDuration.value = prevDuration(preferredDuration.value);
+  const prev = prevDuration(preferredDuration.value);
+  if (prev === preferredDuration.value) {
+    hint.value = "Sei gia al livello minimo di dettaglio.";
+    return;
+  }
+
+  preferredDuration.value = prev;
+  hint.value = "Dettaglio ridotto.";
 }
 
 function speak() {
@@ -270,3 +297,24 @@ function stopSpeaking() {
 
 onBeforeUnmount(() => stopSpeaking());
 </script>
+
+<style scoped>
+.navigator-page__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.navigator-page__footer .button {
+  flex: 1;
+}
+
+.navigator-page__image {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 10px;
+  border: 1px solid rgba(19, 52, 88, 0.15);
+}
+</style>

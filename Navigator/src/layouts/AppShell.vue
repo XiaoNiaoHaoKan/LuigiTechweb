@@ -12,7 +12,7 @@
               <p class="aa-banner__eyebrow">Museum navigator</p>
               <h1 class="aa-banner__title">ArtAround</h1>
               <p class="aa-banner__subtitle">
-                Percorsi museali interattivi, contenuti culturali e visite guidate digitali.
+                {{ title }}
               </p>
             </div>
           </div>
@@ -43,6 +43,8 @@
         <main class="app-shell__main">
           <slot />
         </main>
+
+        <AppNav />
       </div>
     </div>
   </div>
@@ -51,6 +53,7 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from "vue";
 import { RouterLink, useRoute } from "vue-router";
+import AppNav from "../components/AppNav.vue";
 
 defineProps<{
   title: string;
@@ -79,24 +82,35 @@ const showMapLink = computed(() => {
 <style scoped>
 .app-shell {
   min-height: 100vh;
-  background-image: url("/img/museum-bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(250, 247, 187, 0.75) 0%, transparent 38%),
+    radial-gradient(circle at 92% 88%, rgba(217, 155, 33, 0.36) 0%, transparent 40%),
+    linear-gradient(160deg, #133458 0%, #1c4a68 48%, #133458 100%);
 }
 
 .app-shell__overlay {
   min-height: 100vh;
-  background: rgba(10, 12, 20, 0.55);
-  padding: 32px 0;
+  background:
+    linear-gradient(180deg, rgba(9, 26, 44, 0.36), rgba(9, 26, 44, 0.72));
+  padding: 16px 0 94px;
 }
 
 .app-shell__container {
-  width: min(1120px, calc(100% - 32px));
+  width: min(1100px, calc(100% - 20px));
   margin: 0 auto;
 }
 
 .app-shell__main {
   width: 100%;
+}
+
+@media (min-width: 768px) {
+  .app-shell__overlay {
+    padding: 22px 0 108px;
+  }
+
+  .app-shell__container {
+    width: min(1100px, calc(100% - 34px));
+  }
 }
 </style>

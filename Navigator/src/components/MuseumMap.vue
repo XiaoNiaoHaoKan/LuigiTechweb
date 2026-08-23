@@ -41,8 +41,9 @@ const markerStyle = computed(() => ({
   position: relative;
   width: 100%;
   overflow: hidden;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  background: rgba(19, 52, 88, 0.08);
+  border: 1px solid rgba(19, 52, 88, 0.16);
 }
 
 .museum-map__image {
@@ -59,11 +60,11 @@ const markerStyle = computed(() => ({
 
 .museum-map__dot {
   display: block;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #e53935;
-  border: 3px solid #ffffff;
-  box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.25);
+  background: #d99b21;
+  border: 3px solid #faf7bb;
+  box-shadow: 0 0 0 5px rgba(217, 155, 33, 0.25);
 }
 </style>

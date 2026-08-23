@@ -1,8 +1,10 @@
 export type Item = {
   id: string;
+  title?: string;
   duration: string; // "3s" | "15s" | "40s" | ...
   languageLevel: string;
   text: string;
+  image?: string;
   subject?: unknown;
 };
 

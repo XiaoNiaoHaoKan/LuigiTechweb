@@ -1,3 +1,8 @@
+import demoVisits from "../mocks/visits.demo-museum.json";
+import demoVisitBase from "../mocks/visit.visita-base.json";
+import demoVisitApprofondita from "../mocks/visit.visita-approfondita.json";
+import demoItems from "../mocks/items.demo-museum.json";
+
 type VisitSummary = {
   id: string;
   title: string;
@@ -25,6 +30,7 @@ type Item = {
   duration: string;
   languageLevel: string;
   text: string;
+  image?: string;
   subject?: unknown;
 };
 
@@ -83,21 +89,29 @@ function getDefaultMarker(index: number) {
 }
 
 function normalizeStep(raw: RawRecord, index: number): VisitStep {
-  const itemId = normalizeItemId(raw.itemId);
+  const items = Array.isArray(raw.items)
+    ? raw.items.map(normalizeItemId).filter(Boolean)
+    : [];
 
-  const items = itemId ? [itemId] : [];
+  const itemId = normalizeItemId(raw.itemId);
+  const normalizedItems = items.length > 0 ? items : itemId ? [itemId] : [];
 
   const order = raw.order ?? index + 1;
+  const directions = raw.directions ?? raw.logistics ?? `Tappa ${order}`;
 
   return {
-    directions: `Tappa ${order}`,
-    map: raw.map ?? getDefaultMarker(index),//se la visita ha coordinate usa quelle altrimenti usa quelle provvisorie
-    items
+    directions: String(directions),
+    map: raw.map ?? getDefaultMarker(index),
+    items: normalizedItems
   };
 }
 
 function normalizeVisit(raw: RawRecord): Visit {
-  const sequence = Array.isArray(raw.sequence) ? raw.sequence : [];
+  const sequence = Array.isArray(raw.sequence)
+    ? raw.sequence
+    : Array.isArray(raw.steps)
+      ? raw.steps
+      : [];
 
   const orderedSequence = [...sequence].sort((a, b) => {
     return Number(a.order ?? 0) - Number(b.order ?? 0);
@@ -118,12 +132,31 @@ function normalizeItem(raw: RawRecord): Item {
     duration: String(raw.duration ?? raw.length ?? "15s"),
     languageLevel: String(raw.languageLevel ?? raw.level ?? raw.language ?? "medio"),
     text: String(raw.text ?? raw.description ?? raw.content ?? raw.title ?? ""),
+    image: raw.image ?? raw.imageUrl ?? raw.thumbnail ?? raw.cover,
     subject: raw.subject
   };
 }
 
+function getDemoVisitById(visitId: string): RawRecord | null {
+  const demoById: Record<string, RawRecord> = {
+    [String(demoVisitBase.id)]: demoVisitBase as RawRecord,
+    [String(demoVisitApprofondita.id)]: demoVisitApprofondita as RawRecord
+  };
+
+  return demoById[visitId] ?? null;
+}
+
 export const api = {
-  async getVisits(_museumId: string): Promise<VisitSummary[]> {
+  async getVisits(museumId: string): Promise<VisitSummary[]> {
+    if (museumId === "demo-museum") {
+      return (demoVisits as RawRecord[])
+        .map((visit) => ({
+          id: getId(visit),
+          title: getTitle(visit)
+        }))
+        .filter((visit) => visit.id);
+    }
+
     const payload = await getJson<unknown>("/api/visits");
     const visits = asArray(payload, "visits");
 
@@ -135,7 +168,17 @@ export const api = {
       .filter((visit) => visit.id);
   },
 
-  async getVisit(_museumId: string, visitId: string): Promise<Visit> {
+  async getVisit(museumId: string, visitId: string): Promise<Visit> {
+    if (museumId === "demo-museum") {
+      const demoVisit = getDemoVisitById(visitId);
+
+      if (!demoVisit) {
+        throw new Error("Visita demo non trovata.");
+      }
+
+      return normalizeVisit(demoVisit);
+    }
+
     const payload = await getJson<unknown>("/api/visits");
     const visits = asArray(payload, "visits");
 
@@ -148,7 +191,13 @@ export const api = {
     return normalizeVisit(visit);
   },
 
-  async getItems(_museumId: string): Promise<Item[]> {
+  async getItems(museumId: string): Promise<Item[]> {
+    if (museumId === "demo-museum") {
+      return (demoItems as RawRecord[])
+        .map(normalizeItem)
+        .filter((item) => item.id && item.text);
+    }
+
     const payload = await getJson<unknown>("/api/items");
     const items = asArray(payload, "items");
 

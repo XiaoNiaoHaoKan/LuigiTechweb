@@ -1,0 +1,31 @@
+{
+  "id": "visita-approfondita",
+  "title": "Visita demo approfondita (45 min)",
+  "floorplan": "",
+  "steps": [
+    {
+      "target": { "type": "opera", "id": "Q126599960" },
+      "directions": "Dall'ingresso dirigiti in Sala 1: la prima opera e accanto alla parete nord.",
+      "map": { "x": 31, "y": 55 },
+      "items": ["item-001-3s-med", "item-001-15s-med", "item-001-1min-med", "item-001-4min-spec"]
+    },
+    {
+      "target": { "type": "opera", "id": "Q126599961" },
+      "directions": "Sposta verso la Sala 2 e raggiungi il pannello centrale con il secondo oggetto della visita.",
+      "map": { "x": 60, "y": 44 },
+      "items": ["item-002-3s-med", "item-002-15s-med", "item-002-1min-med", "item-002-4min-spec"]
+    },
+    {
+      "target": { "type": "contesto", "id": "stile-artistico" },
+      "directions": "Resta nella Sala 2: ascolta il contenuto di approfondimento su stile e contesto storico.",
+      "map": { "x": 66, "y": 58 },
+      "items": ["item-context-40s-med", "item-context-4min-spec"]
+    },
+    {
+      "target": { "type": "servizi", "id": "toilette-bar-shop" },
+      "directions": "Per i servizi, segui la linea blu verso toilette, bar e shop vicino all'uscita.",
+      "map": { "x": 46, "y": 78 },
+      "items": ["item-log-15s-med", "item-log-1min-med"]
+    }
+  ]
+}

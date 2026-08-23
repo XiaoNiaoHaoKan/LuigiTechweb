@@ -2,22 +2,109 @@
   {
     "id": "item-001-3s-med",
     "subject": { "opera": "Q126599960" },
+    "title": "Ritratto del Frate",
     "duration": "3s",
     "languageLevel": "medio",
-    "text": "Ritratto di frate in veste di San Tommaso d’Aquino."
+    "text": "Ritratto di frate in veste di San Tommaso d'Aquino.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
   },
   {
     "id": "item-001-15s-med",
     "subject": { "opera": "Q126599960" },
+    "title": "Ritratto del Frate",
     "duration": "15s",
     "languageLevel": "medio",
-    "text": "Opera attribuita a Girolamo Mazzola Bedoli, rappresenta un frate con attributi di San Tommaso d’Aquino."
+    "text": "Opera attribuita a Girolamo Mazzola Bedoli: il frate e presentato con attributi iconografici di San Tommaso d'Aquino.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
   },
   {
-    "id": "item-001-40s-med",
+    "id": "item-001-1min-med",
     "subject": { "opera": "Q126599960" },
+    "title": "Ritratto del Frate",
+    "duration": "1min",
+    "languageLevel": "medio",
+    "text": "Il ritratto mostra un equilibrio tra devozione e autorevolezza. Il chiaroscuro e il trattamento delle stoffe riflettono la cultura figurativa emiliana del pieno Cinquecento.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
+  },
+  {
+    "id": "item-001-4min-spec",
+    "subject": { "opera": "Q126599960" },
+    "title": "Ritratto del Frate",
+    "duration": "4min",
+    "languageLevel": "specialistico",
+    "text": "Approfondimento specialistico: il dipinto articola il rapporto tra ritratto devozionale e rappresentazione politica dell'ordine domenicano, con una costruzione luministica calibrata su volumi essenziali e cadenze cromatiche sobrie.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
+  },
+  {
+    "id": "item-002-3s-med",
+    "subject": { "opera": "Q126599961" },
+    "title": "Scultura della Sala 2",
+    "duration": "3s",
+    "languageLevel": "medio",
+    "text": "Scultura centrale con finitura metallica e base in pietra.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
+  },
+  {
+    "id": "item-002-15s-med",
+    "subject": { "opera": "Q126599961" },
+    "title": "Scultura della Sala 2",
+    "duration": "15s",
+    "languageLevel": "medio",
+    "text": "L'opera unisce linee moderne e richiami classici, invitando a osservare la relazione tra pieno e vuoto nella composizione.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
+  },
+  {
+    "id": "item-002-1min-med",
+    "subject": { "opera": "Q126599961" },
+    "title": "Scultura della Sala 2",
+    "duration": "1min",
+    "languageLevel": "medio",
+    "text": "Questa scultura gioca sulla tensione tra superfici lucide e tagli netti: l'artista accentua il movimento percepito dello spettatore che ruota intorno all'oggetto.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
+  },
+  {
+    "id": "item-002-4min-spec",
+    "subject": { "opera": "Q126599961" },
+    "title": "Scultura della Sala 2",
+    "duration": "4min",
+    "languageLevel": "specialistico",
+    "text": "Approfondimento specialistico: la scultura propone una grammatica formale fondata su contrappunti materici e scansioni geometriche, con un impianto spaziale che attiva una fruizione processuale.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
+  },
+  {
+    "id": "item-context-40s-med",
+    "subject": { "tema": "stile" },
+    "title": "Contesto storico-artistico",
     "duration": "40s",
     "languageLevel": "medio",
-    "text": "In questo ritratto il soggetto è presentato con una posa composta e uno sguardo misurato. L’opera si colloca nel clima del manierismo emiliano, con attenzione al chiaroscuro e alla resa dei tessuti."
+    "text": "Le opere della visita demo attraversano linguaggi differenti per mostrare come il Navigator adatti tono, profondita e durata del racconto.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
+  },
+  {
+    "id": "item-context-4min-spec",
+    "subject": { "tema": "stile" },
+    "title": "Contesto storico-artistico",
+    "duration": "4min",
+    "languageLevel": "specialistico",
+    "text": "Approfondimento specialistico sul contesto: il percorso mette in relazione dispositivi narrativi brevi e lunghi, evidenziando la modulazione dei registri lessicali in funzione del pubblico e dell'obiettivo didattico.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
+  },
+  {
+    "id": "item-log-15s-med",
+    "subject": { "tema": "logistica" },
+    "title": "Servizi del museo",
+    "duration": "15s",
+    "languageLevel": "medio",
+    "text": "Toilette, bar e shop sono vicino all'uscita principale.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
+  },
+  {
+    "id": "item-log-1min-med",
+    "subject": { "tema": "logistica" },
+    "title": "Servizi del museo",
+    "duration": "1min",
+    "languageLevel": "medio",
+    "text": "Indicazioni logistiche complete: dalla Sala 2 torna al corridoio centrale e segui la segnaletica blu. Troverai toilette accessibili, area ristoro e bookshop prima dei tornelli di uscita.",
+    "image": "https://media.tenor.com/2ZuUWp5LDfIAAAAM/konata-lucky-star.gif"
   }
 ]

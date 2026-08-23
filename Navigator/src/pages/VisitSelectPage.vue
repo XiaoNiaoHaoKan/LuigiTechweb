@@ -4,7 +4,7 @@
       <div class="aa-panel">
         <h2 class="aa-card__title">Visite disponibili</h2>
         <p class="aa-card__meta">
-          Scegli il percorso da seguire all’interno del museo.
+          Scegli il percorso più adatto al tuo tempo, al tuo livello e al contesto della visita.
         </p>
       </div>
 
@@ -13,7 +13,7 @@
       </div>
 
       <div v-else-if="error" class="aa-panel">
-        <p class="aa-card__meta" style="color:#c0392b;">
+        <p class="aa-card__meta error-text">
           {{ error }}
         </p>
       </div>
@@ -26,16 +26,22 @@
 
       <div v-else class="aa-page-stack">
         <button
-          v-for="visit in visits"
+          v-for="(visit, index) in visits"
           :key="visit.id"
           class="aa-card aa-card--clickable"
           type="button"
           @click="openVisit(visit.id)"
         >
           <h3 class="aa-card__title">{{ visit.title }}</h3>
+
           <p class="aa-card__meta">
             Tocca per iniziare la visita guidata.
           </p>
+
+          <div class="tag-row mt-3">
+            <span class="tag">Percorso {{ index + 1 }}</span>
+            <span class="tag">Audio + Testo</span>
+          </div>
         </button>
       </div>
     </div>

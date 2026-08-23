@@ -100,39 +100,39 @@ function go(path: string) {
 .app-nav {
   position: fixed;
   left: 50%;
-  bottom: 18px;
+  bottom: 10px;
   z-index: 30;
   transform: translateX(-50%);
   display: flex;
   gap: 6px;
   width: min(460px, calc(100% - 28px));
-  padding: 8px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(10px);
+  padding: 7px;
+  border-radius: 18px;
+  background: rgba(19, 52, 88, 0.95);
+  box-shadow: 0 13px 32px rgba(9, 26, 44, 0.36);
+  border: 1px solid rgba(250, 247, 187, 0.22);
 }
 
 .app-nav__item {
   flex: 1;
   border: 0;
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 9px 4px 8px;
   background: transparent;
-  color: #4f5665;
+  color: rgba(250, 247, 187, 0.84);
   font: inherit;
   cursor: pointer;
   transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
 .app-nav__item:hover:not(:disabled) {
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(250, 247, 187, 0.14);
 }
 
 .app-nav__item--active {
-  background: #615dfa;
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(97, 93, 250, 0.28);
+  background: linear-gradient(145deg, #d99b21, #f3c863);
+  color: #3a2b03;
+  box-shadow: 0 8px 18px rgba(9, 26, 44, 0.35);
 }
 
 .app-nav__item--disabled {
@@ -150,7 +150,7 @@ function go(path: string) {
 .app-nav__label {
   display: block;
   font-size: 10.5px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.01em;
 }
 

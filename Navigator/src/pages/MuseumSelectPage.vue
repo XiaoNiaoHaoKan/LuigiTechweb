@@ -2,10 +2,16 @@
   <AppShell title="Accesso al museo">
     <div class="aa-page-stack">
       <div class="aa-panel">
-        <h2 class="aa-card__title">Scansiona il museo</h2>
+        <h2 class="aa-card__title">Inizia la visita</h2>
         <p class="aa-card__meta">
-          Carica o inquadra il QR code del museo per iniziare la visita.
+          Inquadra o carica il QR del museo per aprire subito visite, opere e mappa guidata.
         </p>
+
+        <div class="tag-row mt-3">
+          <span class="tag">Interessi personalizzati</span>
+          <span class="tag">Linguaggio adattivo</span>
+          <span class="tag">Contenuti accessibili</span>
+        </div>
       </div>
 
       <QrScanner @decoded="handleDecoded" />
@@ -16,7 +22,17 @@
           <b>demo-museum</b>.
         </p>
 
-        <p v-if="hint" class="aa-card__meta mt-3" style="color:#c0392b;">
+        <div class="mt-3">
+          <button
+            class="button accent"
+            type="button"
+            @click="startDemoVisit"
+          >
+            Visita demo
+          </button>
+        </div>
+
+        <p v-if="hint" class="aa-card__meta mt-3 error-text">
           {{ hint }}
         </p>
       </div>
@@ -48,5 +64,11 @@ function handleDecoded(raw: string) {
   }
   localStorage.setItem("artarround:selectedMuseumId", museumId);
   router.push(`/museums/${museumId}/visits`);
+}
+
+function startDemoVisit() {
+  const demoMuseumId = "demo-museum";
+  localStorage.setItem("artarround:selectedMuseumId", demoMuseumId);
+  router.push(`/museums/${demoMuseumId}/visits`);
 }
 </script>

@@ -1,4 +1,10 @@
 [
-  { "id": "visita-base", "title": "Visita essenziale (30 min)" },
-  { "id": "visita-approfondita", "title": "Visita approfondita (60 min)" }
+  {
+    "id": "visita-base",
+    "title": "Visita demo essenziale (20 min)"
+  },
+  {
+    "id": "visita-approfondita",
+    "title": "Visita demo approfondita (45 min)"
+  }
 ]
