@@ -1,7 +1,7 @@
 {
   "id": "visita-approfondita",
   "title": "Visita demo approfondita (45 min)",
-  "floorplan": "",
+  "floorplan": "https://www.startpage.com/av/proxy-image?piurl=http%3A%2F%2Fontheworldmap.com%2Fit%2Fmappa-del-mondo.jpg&sp=1787502512Te4d15ea9765f1061208d3a7b7388546fbf4e9b42bb058095c68c651b9f3bb081",
   "steps": [
     {
       "target": { "type": "opera", "id": "Q126599960" },
