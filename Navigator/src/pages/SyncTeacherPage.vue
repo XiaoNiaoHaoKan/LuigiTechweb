@@ -387,23 +387,31 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+
 .teacher-page {
   display: grid;
   gap: 18px;
+  width: 100%;
 }
 
 .teacher-card {
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   padding: 26px;
+  box-sizing: border-box;
+}
+
+.teacher-card * {
+  box-sizing: border-box;
 }
 
 .teacher-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
 .teacher-grid .teacher-card {
@@ -468,10 +476,16 @@ onUnmounted(() => {
 }
 
 .teacher-actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   margin-top: 22px;
+}
+
+.teacher-actions .button {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
 }
 
 .teacher-list {
@@ -485,6 +499,24 @@ onUnmounted(() => {
   display: block;
   margin-top: 4px;
   opacity: 0.65;
+}
+
+.teacher-mini-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  margin-left: 8px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #ececf5;
+  color: #555;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.teacher-mini-pill--online {
+  background: #2f855a;
+  color: #fff;
 }
 
 .teacher-error {
@@ -507,24 +539,9 @@ button:disabled {
   .teacher-grid {
     grid-template-columns: 1fr;
   }
-}
 
-.teacher-mini-pill {
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-  margin-left: 8px;
-  padding: 0 8px;
-  border-radius: 999px;
-  background: #ececf5;
-  color: #555;
-  font-size: 12px;
-  font-weight: 800;
+  .teacher-actions {
+    grid-template-columns: 1fr;
+  }
 }
-
-.teacher-mini-pill--online {
-  background: #2f855a;
-  color: #fff;
-}
-
 </style>

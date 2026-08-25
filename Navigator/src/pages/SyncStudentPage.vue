@@ -207,12 +207,6 @@ const allQuizQuestionsAnswered = computed(() => {
   });
 });
 
-async function loadVisit() {
-  if (!code.value) return;
-
-  visit.value = await syncApi.getVisit(code.value);
-}
-
 async function joinVisit() {
   if (!studentName.value.trim()) {
     throw new Error("Nome studente mancante.");
@@ -328,15 +322,23 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+
 .sync-page {
   display: grid;
   gap: 18px;
+  width: 100%;
 }
 
 .sync-card {
-  max-width: 780px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   padding: 26px;
+  box-sizing: border-box;
+}
+
+.sync-card * {
+  box-sizing: border-box;
 }
 
 .sync-kicker {
@@ -390,10 +392,16 @@ onUnmounted(() => {
 }
 
 .sync-actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   margin-top: 22px;
+}
+
+.sync-actions .button {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
 }
 
 .sync-error {
@@ -428,5 +436,16 @@ onUnmounted(() => {
 .quiz-answer input {
   width: 18px;
   height: 18px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+@media (max-width: 760px) {
+  .sync-actions {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

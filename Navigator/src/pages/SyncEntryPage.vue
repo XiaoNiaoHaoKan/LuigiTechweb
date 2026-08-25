@@ -82,9 +82,15 @@ function enterAsTeacher() {
 
 <style scoped>
 .sync-box {
-  max-width: 560px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   padding: 28px;
+  box-sizing: border-box;
+}
+
+.sync-box * {
+  box-sizing: border-box;
 }
 
 .sync-title {
@@ -104,6 +110,7 @@ function enterAsTeacher() {
 }
 
 .form-input {
+  display: block;
   width: 100%;
   min-height: 46px;
   border: 1px solid #dedeea;
@@ -113,15 +120,27 @@ function enterAsTeacher() {
 }
 
 .sync-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  flex-wrap: wrap;
   margin-top: 22px;
+}
+
+.sync-actions .button {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
 }
 
 .sync-error {
   margin-top: 14px;
   color: #c0392b;
   font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .sync-actions {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
