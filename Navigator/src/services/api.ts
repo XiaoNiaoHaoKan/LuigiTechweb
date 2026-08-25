@@ -64,6 +64,29 @@ function getTitle(obj: RawRecord): string {
   return String(obj.title ?? obj.name ?? obj.nome ?? "Senza titolo");
 }
 
+function normalizeMuseumId(value: any): string {
+  const raw = String(value ?? "").trim();
+
+  if (raw === "1") return "01";
+  if (raw === "2") return "02";
+
+  return raw;
+}
+
+function sameMuseum(a: any, b: any): boolean {
+  return normalizeMuseumId(a) === normalizeMuseumId(b);
+}
+
+function normalizeDuration(value: any): string {
+  if (value === 3 || value === "3" || value === "3s") return "3s";
+  if (value === 15 || value === "15" || value === "15s") return "15s";
+  if (value === 40 || value === "40" || value === "40s") return "40s";
+  if (value === 60 || value === "60" || value === "1min") return "1min";
+  if (value === 240 || value === "240" || value === "4min") return "4min";
+
+  return "15s";
+}
+
 function normalizeItemId(value: any): string {
   if (!value) return "";
 
@@ -74,6 +97,43 @@ function normalizeItemId(value: any): string {
   }
 
   return "";
+}
+
+function getVisitSequence(visit: RawRecord): RawRecord[] {
+  if (Array.isArray(visit.sequence)) return visit.sequence;
+  if (Array.isArray(visit.steps)) return visit.steps;
+
+  return [];
+}
+
+function getMuseumIdFromItem(value: any): string {
+  if (!value || typeof value !== "object") return "";
+
+  return normalizeMuseumId(value.museumId);
+}
+
+function visitBelongsToMuseum(
+  visit: RawRecord,
+  museumId: string,
+  itemMuseumById: Map<string, string>
+): boolean {
+  if (sameMuseum(visit.museumId, museumId)) {
+    return true;
+  }
+
+  const sequence = getVisitSequence(visit);
+
+  return sequence.some((step) => {
+    const itemId = normalizeItemId(step.itemId);
+
+    const museumIdFromItemsApi = itemMuseumById.get(itemId);
+    const museumIdFromPopulatedItem = getMuseumIdFromItem(step.itemId);
+
+    return (
+      sameMuseum(museumIdFromItemsApi, museumId) ||
+      sameMuseum(museumIdFromPopulatedItem, museumId)
+    );
+  });
 }
 
 const defaultMarkers = [
@@ -107,11 +167,7 @@ function normalizeStep(raw: RawRecord, index: number): VisitStep {
 }
 
 function normalizeVisit(raw: RawRecord): Visit {
-  const sequence = Array.isArray(raw.sequence)
-    ? raw.sequence
-    : Array.isArray(raw.steps)
-      ? raw.steps
-      : [];
+  const sequence = getVisitSequence(raw);
 
   const orderedSequence = [...sequence].sort((a, b) => {
     return Number(a.order ?? 0) - Number(b.order ?? 0);
@@ -129,7 +185,7 @@ function normalizeItem(raw: RawRecord): Item {
   return {
     id: getId(raw),
     title: getTitle(raw),
-    duration: String(raw.duration ?? raw.length ?? "15s"),
+    duration: normalizeDuration(raw.duration ?? raw.length ?? "15s"),
     languageLevel: String(raw.languageLevel ?? raw.level ?? raw.language ?? "medio"),
     text: String(raw.text ?? raw.description ?? raw.content ?? raw.title ?? ""),
     image: raw.image ?? raw.imageUrl ?? raw.thumbnail ?? raw.cover,
@@ -157,10 +213,20 @@ export const api = {
         .filter((visit) => visit.id);
     }
 
-    const payload = await getJson<unknown>("/api/visits");
-    const visits = asArray(payload, "visits");
+    const visitsPayload = await getJson<unknown>("/api/visits");
+    const itemsPayload = await getJson<unknown>("/api/items");
+
+    const visits = asArray(visitsPayload, "visits");
+    const items = asArray(itemsPayload, "items");
+
+    const itemMuseumById = new Map(
+      items
+        .map((item) => [getId(item), normalizeMuseumId(item.museumId)] as const)
+        .filter(([itemId]) => itemId)
+    );
 
     return visits
+      .filter((visit) => visitBelongsToMuseum(visit, museumId, itemMuseumById))
       .map((visit) => ({
         id: getId(visit),
         title: getTitle(visit)
@@ -179,10 +245,21 @@ export const api = {
       return normalizeVisit(demoVisit);
     }
 
-    const payload = await getJson<unknown>("/api/visits");
-    const visits = asArray(payload, "visits");
+    const visitsPayload = await getJson<unknown>("/api/visits");
+    const itemsPayload = await getJson<unknown>("/api/items");
 
-    const visit = visits.find((v) => getId(v) === visitId);
+    const visits = asArray(visitsPayload, "visits");
+    const items = asArray(itemsPayload, "items");
+
+    const itemMuseumById = new Map(
+      items
+        .map((item) => [getId(item), normalizeMuseumId(item.museumId)] as const)
+        .filter(([itemId]) => itemId)
+    );
+
+    const visit = visits.find((v) => {
+      return getId(v) === visitId && visitBelongsToMuseum(v, museumId, itemMuseumById);
+    });
 
     if (!visit) {
       throw new Error("Visita non trovata.");
@@ -202,6 +279,7 @@ export const api = {
     const items = asArray(payload, "items");
 
     return items
+      .filter((item) => sameMuseum(item.museumId, museumId))
       .map(normalizeItem)
       .filter((item) => item.id && item.text);
   }
