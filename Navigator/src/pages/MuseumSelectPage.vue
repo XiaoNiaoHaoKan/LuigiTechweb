@@ -22,7 +22,7 @@
           <b>demo-museum</b>.
         </p>
 
-        <div class="mt-3">
+        <div class="home-actions mt-3">
           <button
             class="button accent"
             type="button"
@@ -30,6 +30,20 @@
           >
             Visita demo
           </button>
+
+          <button
+            class="button secondary"
+            type="button"
+            @click="openSyncVisit"
+          >
+            Entra in una visita sincronizzata
+          </button>
+        </div>
+
+        <div class="sync-info-box">
+          <p class="aa-card__meta">
+            Hai un codice fornito dalla docente o dalla guida? Usa l’accesso alla visita sincronizzata.
+          </p>
         </div>
 
         <p v-if="hint" class="aa-card__meta mt-3 error-text">
@@ -71,4 +85,34 @@ function startDemoVisit() {
   localStorage.setItem("artarround:selectedMuseumId", demoMuseumId);
   router.push(`/museums/${demoMuseumId}/visits`);
 }
+
+function openSyncVisit() {
+  router.push("/sync");
+}
 </script>
+
+<style scoped>
+.home-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-actions .button {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.sync-info-box {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 760px) {
+  .home-actions {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
