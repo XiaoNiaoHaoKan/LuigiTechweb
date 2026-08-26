@@ -1,137 +1,116 @@
 # Navigator ArtAround
 
-Questo documento descrive le scelte progettuali adottate per il modulo **Navigator** e spiega come integrarlo con il backend e con il Marketplace/Editor.
+Questo README descrive lo stato attuale del modulo **Navigator** e della nuova estensione per le **visite sincronizzate docente/studenti**.
 
-## 1. Obiettivo del modulo
-
-Il modulo **Navigator** è la parte dell'applicazione pensata per il visitatore del museo.
-
-Il flusso previsto è:
-
-1. il visitatore apre il Navigator;
-2. scansiona o carica il QR code del museo;
-3. accede all'elenco delle visite disponibili;
-4. seleziona una visita;
-5. naviga tra le tappe della visita;
-6. ascolta o legge i contenuti associati alle opere;
-7. visualizza una planimetria con un marker della tappa corrente.
-
-Il QR code contiene soltanto l'identificativo del museo, ad esempio:
-
-```text
-demo-museum
-```
-
-oppure:
-
-```text
-brera
-```
-
-L'identificativo letto dal QR viene usato dal client per costruire le route interne e per caricare la planimetria corretta.
+Il Navigator è la parte dell’applicazione pensata per il visitatore del museo. Permette di leggere un QR code, selezionare una visita, navigare tra le tappe, ascoltare i contenuti delle opere e visualizzare una planimetria con marker.
 
 ---
 
-## 2. Tecnologia scelta
+## 1. Tecnologie usate
 
-Per il Navigator è stato scelto:
+Il Navigator è sviluppato con:
 
 ```text
 Vue 3 + TypeScript + Vite
 ```
 
-La scelta è motivata da alcuni aspetti pratici:
+Motivi principali:
 
-- Vue consente di organizzare l'interfaccia in componenti piccoli e riutilizzabili;
-- TypeScript aiuta a controllare meglio la struttura dei dati ricevuti dal backend;
-- Vite permette uno sviluppo rapido in locale e una build statica facilmente servibile dal server Express;
-- il modulo può restare separato dal Marketplace/Editor, evitando conflitti tra codice Vue e JavaScript statico del template.
+- Vue permette di costruire pagine e componenti riutilizzabili;
+- TypeScript aiuta a gestire meglio i dati ricevuti dal backend;
+- Vite consente sviluppo rapido e build statica;
+- la build finale viene servita dal server Express sotto `/navigator/`.
 
 ---
 
-## 3. Struttura delle cartelle
+## 2. Struttura principale
 
-La struttura di integrazione prevista è:
+La struttura attuale è:
 
 ```text
-ArtAround-integrazione/
+LuigiTechweb/
   Server/
-    server.js
-    package.json
-    Config/
-    Controllers/
     Models/
+    Controllers/
     Routes/
+    Data/
     public/
-      navigator/          ← build finale del Navigator
-
-  MarketPlace-Editor/
-    Index.html
-    ...
+      navigator/        ← build finale del Navigator
 
   Navigator/
-    index.html
-    package.json
-    vite.config.ts
-    public/
-      img/
-        museums/
-          demo-museum/
-            floorplan.png
     src/
       components/
       layouts/
       pages/
       services/
       utils/
+    public/
+    vite.config.ts
 ```
 
 La cartella `Navigator/` contiene il codice sorgente Vue.
 
-La cartella `Server/public/navigator/` contiene invece la build finale generata da Vite. Non viene modificata manualmente: viene aggiornata con:
+La cartella `Server/public/navigator/` contiene la build prodotta da:
 
-```bash
+```powershell
 npm run build
 ```
 
 ---
 
-## 4. Configurazione Vite
+## 3. Configurazione Vite
 
-Il file `Navigator/vite.config.ts` è configurato per funzionare sia in sviluppo sia nella versione integrata.
+Il file `Navigator/vite.config.ts` usa:
 
 ```ts
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import path from "path";
-
-export default defineConfig({
-  plugins: [vue()],
-  base: "/navigator/",
-  build: {
-    outDir: path.resolve(__dirname, "../Server/public/navigator"),
-    emptyOutDir: true
-  },
-  server: {
-    proxy: {
-      "/api": "http://localhost:8000",
-      "/data": "http://localhost:8000"
-    }
-  }
-});
+base: "/navigator/"
 ```
 
-Significato delle parti principali:
+e genera la build in:
 
-- `base: "/navigator/"` indica che nella versione integrata l'app Vue sarà servita da `/navigator/`;
-- `outDir` indica a Vite di generare la build dentro `Server/public/navigator`;
-- `proxy` serve solo durante `npm run dev` e inoltra le chiamate `/api` al server Express sulla porta `8000`.
+```text
+Server/public/navigator
+```
+
+Durante lo sviluppo Vite inoltra le chiamate `/api` al backend Express su `localhost:8000`.
 
 ---
 
-## 5. Route del Navigator
+## 4. Differenza tra localhost:5173 e localhost:8000
 
-Il Navigator usa `vue-router`.
+| Indirizzo | Uso |
+|---|---|
+| `localhost:5173` | server Vite per sviluppo frontend |
+| `localhost:8000` | server Express per backend e build integrata |
+
+Durante lo sviluppo si usa:
+
+```text
+http://localhost:5173/navigator/
+```
+
+Per testare la versione integrata si usa:
+
+```text
+http://localhost:8000/navigator/
+```
+
+Dopo modifiche al frontend, per aggiornare la versione su `localhost:8000` bisogna eseguire:
+
+```powershell
+cd C:\progetti\repoluigitechweb\LuigiTechweb\Navigator
+npm run build
+```
+
+---
+
+## 5. Route principali del Navigator
+
+Il router Vue usa:
+
+```ts
+createWebHistory(import.meta.env.BASE_URL)
+```
 
 Le route principali sono:
 
@@ -145,13 +124,13 @@ Pagina iniziale con scanner QR.
 /navigator/museums/:museumId/visits
 ```
 
-Lista delle visite disponibili.
+Lista delle visite disponibili per il museo.
 
 ```text
 /navigator/museums/:museumId/items
 ```
 
-Lista delle opere/item disponibili.
+Lista delle opere disponibili.
 
 ```text
 /navigator/museums/:museumId/visits/:visitId/navigator
@@ -159,111 +138,74 @@ Lista delle opere/item disponibili.
 
 Pagina di navigazione della visita.
 
-Nel router è importante usare:
-
-```ts
-createWebHistory(import.meta.env.BASE_URL)
-```
-
-perché l'app non vive nella root del sito, ma sotto `/navigator/`.
-
 ---
 
 ## 6. Pagine principali
 
-Le pagine sviluppate sono:
+Le pagine principali sono:
 
 ```text
-src/pages/MuseumSelectPage.vue
-src/pages/VisitSelectPage.vue
-src/pages/ItemsPage.vue
-src/pages/NavigatorPage.vue
+Navigator/src/pages/MuseumSelectPage.vue
+Navigator/src/pages/VisitSelectPage.vue
+Navigator/src/pages/ItemsPage.vue
+Navigator/src/pages/NavigatorPage.vue
 ```
 
 ### `MuseumSelectPage.vue`
 
-È la pagina iniziale.
+Pagina iniziale. Permette di scansionare o caricare un QR code.
 
-Contiene lo scanner QR e gestisce il valore letto.
-
-Il QR deve contenere solo l'id del museo. Se il QR contiene URL, path o parametri non viene accettato.
-
-Esempio accettato:
+Il QR contiene l’identificativo del museo, ad esempio:
 
 ```text
-demo-museum
-```
-
-Esempio non accettato:
-
-```text
-https://example.com/museums/demo-museum
+01
 ```
 
 ### `VisitSelectPage.vue`
 
-Carica le visite tramite il service `api.ts` e le mostra come card selezionabili.
-
-Al click su una visita, l'utente viene portato alla pagina Navigator.
+Mostra le visite disponibili per il museo selezionato.
 
 ### `ItemsPage.vue`
 
-Mostra gli item/opere restituiti dal backend.
-
-Questa pagina è stata aggiunta per rendere visibile il collegamento tra il Navigator e i contenuti caricati tramite Marketplace/Editor.
+Mostra le opere disponibili lette dal backend.
 
 ### `NavigatorPage.vue`
 
-È la pagina principale della visita.
+Gestisce la visita ordinaria:
 
-Gestisce:
-
-- step corrente;
-- testo dell'item corrente;
+- tappa corrente;
 - pulsanti precedente/successivo;
-- pulsanti "Di più" e "Di meno";
-- sintesi vocale;
+- ascolto tramite sintesi vocale;
+- livelli di dettaglio;
 - planimetria;
-- marker sulla mappa.
+- marker della tappa corrente.
 
 ---
 
 ## 7. Componenti principali
 
-I componenti principali sono:
+Componenti principali:
 
 ```text
-src/components/QrScanner.vue
-src/components/MuseumMap.vue
-src/components/AppNav.vue
-src/layouts/AppShell.vue
+Navigator/src/components/QrScanner.vue
+Navigator/src/components/MuseumMap.vue
+Navigator/src/components/AppNav.vue
+Navigator/src/layouts/AppShell.vue
 ```
 
 ### `QrScanner.vue`
 
-Gestisce:
+Gestisce scansione QR da fotocamera e caricamento immagine QR da file.
 
-- scansione QR tramite fotocamera;
-- caricamento immagine QR da file.
-
-Per la lettura del QR è stata usata la libreria:
+Usa:
 
 ```text
 @zxing/browser
 ```
 
-Questa scelta è stata fatta perché l'API nativa `BarcodeDetector` non è disponibile su tutti i browser.
-
 ### `MuseumMap.vue`
 
-Mostra la planimetria e il marker della tappa corrente.
-
-Riceve:
-
-```ts
-src: string
-marker?: { x: number; y: number }
-```
+Mostra planimetria e marker della tappa corrente.
 
 Le coordinate del marker sono percentuali:
 
@@ -271,117 +213,38 @@ Le coordinate del marker sono percentuali:
 { "x": 32, "y": 58 }
 ```
 
-Questo significa:
-
-- `x = 32%` della larghezza;
-- `y = 58%` dell'altezza.
-
-La scelta delle percentuali permette al marker di restare proporzionato anche su schermi diversi.
-
 ### `AppNav.vue`
 
-È il menu di navigazione inferiore, in stile app mobile.
+Menu inferiore in stile app mobile.
 
-Contiene le voci:
+Voci:
 
 ```text
 Scanner | Visite | Opere | Navigator
 ```
 
-Alcune voci vengono disabilitate quando mancano i parametri necessari nella route.
-
-Esempio:
-
-- nella pagina iniziale non è ancora noto `museumId`, quindi "Visite", "Opere" e "Navigator" sono disabilitati;
-- dopo la scansione del QR, "Visite" e "Opere" diventano disponibili;
-- "Navigator" diventa disponibile quando è nota anche la visita selezionata.
-
 ### `AppShell.vue`
 
-È il layout comune.
-
-Contiene:
-
-- sfondo museale;
-- intestazione della pagina;
-- contenitore comune;
-- menu inferiore.
-
-Tutte le pagine principali vengono renderizzate dentro `AppShell`.
+Layout comune con intestazione, contenitore pagina e menu inferiore.
 
 ---
 
 ## 8. Collegamento con il backend
 
-Il backend attuale espone principalmente:
+Il Navigator usa principalmente:
 
 ```text
 GET /api/items
 GET /api/visits
-POST /api/visits
-PUT /api/visits/:id
-DELETE /api/visits/:id
-GET /api/visits/:id/state
-PUT /api/visits/:id/state
 ```
 
-Il Navigator usa in particolare:
+Il service principale è:
 
 ```text
-GET /api/visits
-GET /api/items
+Navigator/src/services/api.ts
 ```
 
-Il service del Navigator si trova in:
-
-```text
-src/services/api.ts
-```
-
-Dato che il backend non espone una route dedicata del tipo:
-
-```text
-GET /api/visits/:id
-```
-
-il Navigator recupera tutte le visite da:
-
-```text
-GET /api/visits
-```
-
-e poi seleziona lato client la visita con l'id corrispondente.
-
----
-
-## 9. Adattamento dei dati
-
-Il modello visita del backend usa una struttura basata su `sequence`.
-
-Esempio concettuale:
-
-```js
-sequence: [
-  {
-    itemId,
-    order
-  }
-]
-```
-
-Il Navigator, invece, lavora internamente con una struttura più adatta alla navigazione:
-
-```ts
-steps: [
-  {
-    directions: string,
-    map?: { x: number, y: number },
-    items: string[]
-  }
-]
-```
-
-Per questo in `api.ts` viene fatta una normalizzazione:
+Il backend restituisce visite basate su `sequence`, mentre il Navigator lavora con una struttura più adatta alla navigazione. Per questo `api.ts` normalizza i dati:
 
 ```text
 sequence → steps
@@ -391,47 +254,13 @@ Ogni elemento della `sequence` diventa una tappa del Navigator.
 
 ---
 
-## 10. Planimetrie dei musei
+## 9. Planimetria e marker
 
-La planimetria viene caricata in base all'id del museo letto dal QR.
+Nel database attuale la `sequence` contiene `itemId` e `order`, ma non contiene ancora coordinate reali di mappa.
 
-La convenzione usata è:
+Per questo il Navigator assegna marker provvisori in base all’indice della tappa.
 
-```text
-Navigator/public/img/museums/<museumId>/floorplan.png
-```
-
-Esempio:
-
-```text
-Navigator/public/img/museums/demo-museum/floorplan.png
-```
-
-Se il QR contiene:
-
-```text
-demo-museum
-```
-
-il Navigator cercherà la planimetria in:
-
-```text
-/navigator/img/museums/demo-museum/floorplan.png
-```
-
-Questa scelta permette di aggiungere nuovi musei senza modificare il codice: basta creare una nuova cartella con lo stesso id del QR.
-
----
-
-## 11. Marker sulla planimetria
-
-Nel modello attuale del backend la `sequence` contiene `itemId` e `order`, ma non contiene ancora coordinate di mappa.
-
-Per questo motivo il Navigator assegna coordinate provvisorie in base all'indice della tappa.
-
-Questa soluzione consente di mostrare subito il funzionamento del marker, anche senza modificare il database.
-
-Soluzione definitiva proposta:
+Possibile soluzione futura:
 
 ```js
 sequence: [
@@ -446,84 +275,263 @@ sequence: [
 ]
 ```
 
-In questo modo ogni tappa potrebbe avere coordinate reali sulla planimetria.
-
 ---
 
-## 12. Sintesi vocale
+## 10. Sintesi vocale e livelli di dettaglio
 
-Il Navigator usa la Web Speech API del browser.
-
-Quando l'utente preme "Ascolta", viene creato un oggetto:
+La lettura dei contenuti usa la Web Speech API del browser:
 
 ```ts
 SpeechSynthesisUtterance
 ```
 
-con lingua impostata su:
+Lingua:
 
-```ts
+```text
 it-IT
 ```
 
-La lettura può essere interrotta con il pulsante "Stop".
-
----
-
-## 13. Livelli di dettaglio
-
-Gli item possono avere durate diverse.
-
-La scala usata è:
+I livelli di durata usati sono:
 
 ```ts
 ["3s", "15s", "40s", "1min", "4min"]
 ```
 
-I pulsanti:
-
-```text
-Di più
-Di meno
-```
-
-cambiano la durata preferita.
-
-Il file che contiene questa logica è:
-
-```text
-src/utils/itemSelect.ts
-```
-
-Se esiste un item della durata richiesta, viene selezionato quello. Altrimenti viene scelto l'item più vicino disponibile.
+I pulsanti `Di più` e `Di meno` cambiano la durata preferita del contenuto.
 
 ---
 
-## 14. Comandi per lo sviluppo
+# Estensione: visite sincronizzate docente/studenti
 
-### Avviare il backend
+È stata aggiunta una modalità di visita sincronizzata per una docente o guida.
 
-```bash
-cd C:\progetti\ArtAround-integrazione\Server
+La docente controlla la visita; gli studenti si collegano con un codice e seguono la tappa scelta dalla docente.
+
+Codice di esempio usato nei test:
+
+```text
+RINASCIMENTO
+```
+
+---
+
+## 11. Route della modalità sincronizzata
+
+Sono state aggiunte queste route Vue:
+
+```text
+/navigator/sync
+/navigator/sync/:code/student
+/navigator/sync/:code/teacher
+```
+
+Esempi:
+
+```text
+http://localhost:5173/navigator/sync
+http://localhost:5173/navigator/sync/RINASCIMENTO/teacher
+http://localhost:5173/navigator/sync/RINASCIMENTO/student?name=Mario%20Rossi
+```
+
+Nella versione integrata:
+
+```text
+http://localhost:8000/navigator/sync
+http://localhost:8000/navigator/sync/RINASCIMENTO/teacher
+http://localhost:8000/navigator/sync/RINASCIMENTO/student?name=Mario%20Rossi
+```
+
+---
+
+## 12. Funzioni lato docente
+
+Il pannello docente consente di:
+
+- attivare la visita;
+- vedere la tappa corrente;
+- andare alla tappa precedente o successiva;
+- avviare e fermare l’audio sugli studenti;
+- vedere gli studenti collegati;
+- controllare se gli studenti risultano online o non aggiornati;
+- vedere le richieste degli studenti;
+- aprire o chiudere il quiz;
+- visualizzare i punteggi del quiz.
+
+File:
+
+```text
+Navigator/src/pages/SyncTeacherPage.vue
+```
+
+---
+
+## 13. Funzioni lato studente
+
+Lo studente può:
+
+- entrare con codice visita e nome;
+- vedere solo la tappa scelta dalla docente;
+- ascoltare l’audio avviato dalla docente;
+- riascoltare localmente il contenuto;
+- chiedere più dettagli;
+- chiedere un linguaggio più semplice;
+- rispondere al quiz finale.
+
+Lo studente non può andare avanti o indietro autonomamente.
+
+File:
+
+```text
+Navigator/src/pages/SyncStudentPage.vue
+```
+
+---
+
+## 14. Scelta tecnica: polling
+
+La sincronizzazione usa polling.
+
+Ogni studente aggiorna periodicamente lo stato leggendo dal backend:
+
+```text
+currentIndex
+isPlaying
+quizOpen
+```
+
+Inoltre aggiorna il proprio `lastSeen`, così il pannello docente può indicare se lo studente è ancora online.
+
+Questa soluzione è più semplice dei WebSocket ed è adeguata per una demo prototipale.
+
+---
+
+## 15. Backend visite sincronizzate
+
+File modificati:
+
+```text
+Server/Models/visits.js
+Server/Controllers/visitController.js
+Server/Routes/VisitRoutes.js
+```
+
+Campi principali aggiunti/usati nel modello `Visit`:
+
+```text
+synchronized
+syncCode
+active
+startedAt
+currentIndex
+isPlaying
+participants
+requests
+quizOpen
+quiz
+quizAnswers
+```
+
+---
+
+## 16. Endpoint visite sincronizzate
+
+Base path:
+
+```text
+/api/visits/sync/:code
+```
+
+Endpoint:
+
+| Metodo | Endpoint | Funzione |
+|---|---|---|
+| `GET` | `/api/visits/sync/:code` | recupera la visita sincronizzata |
+| `PUT` | `/api/visits/sync/:code/activate` | attiva la visita |
+| `POST` | `/api/visits/sync/:code/join` | collega o aggiorna uno studente |
+| `PUT` | `/api/visits/sync/:code/state` | aggiorna tappa e stato audio |
+| `POST` | `/api/visits/sync/:code/request` | salva una richiesta dello studente |
+| `PUT` | `/api/visits/sync/:code/quiz` | apre o chiude il quiz |
+| `POST` | `/api/visits/sync/:code/quiz-answer` | invia risposte e calcola punteggio |
+
+---
+
+## 17. Service frontend per sincronizzazione
+
+È stato aggiunto:
+
+```text
+Navigator/src/services/syncApi.ts
+```
+
+Funzioni principali:
+
+```text
+getVisit
+activateVisit
+joinVisit
+updateState
+createRequest
+setQuizOpen
+submitQuizAnswer
+```
+
+---
+
+## 18. Dati di esempio per visita sincronizzata
+
+Per testare la modalità sincronizzata serve una visita con almeno:
+
+```json
+{
+  "synchronized": true,
+  "syncCode": "RINASCIMENTO",
+  "active": false,
+  "currentIndex": 0,
+  "isPlaying": false,
+  "quizOpen": false,
+  "participants": [],
+  "requests": [],
+  "quizAnswers": []
+}
+```
+
+Esempio quiz:
+
+```json
+"quiz": [
+  {
+    "question": "Chi è l'autore dell'opera?",
+    "answers": ["Giotto", "Amico Aspertini", "Raffaello"],
+    "correctIndex": 1
+  }
+]
+```
+
+---
+
+## 19. Avvio del progetto
+
+### Backend
+
+```powershell
+cd C:\progetti\repoluigitechweb\LuigiTechweb\Server
 npm start
 ```
 
-Il server deve essere disponibile su:
+Backend disponibile su:
 
 ```text
 http://localhost:8000
 ```
 
-### Avviare il Navigator in sviluppo
+### Frontend in sviluppo
 
-In un secondo terminale:
-
-```bash
-cd C:\progetti\ArtAround-integrazione\Navigator
+```powershell
+cd C:\progetti\repoluigitechweb\LuigiTechweb\Navigator
 npm run dev
 ```
 
-Durante lo sviluppo il Navigator viene aperto da Vite, di solito su:
+Navigator disponibile su:
 
 ```text
 http://localhost:5173/navigator/
@@ -531,22 +539,16 @@ http://localhost:5173/navigator/
 
 ---
 
-## 15. Comandi per la build integrata
+## 20. Build integrata
 
-Quando il Navigator funziona in sviluppo:
+Per aggiornare la versione servita da Express:
 
-```bash
-cd C:\progetti\ArtAround-integrazione\Navigator
+```powershell
+cd C:\progetti\repoluigitechweb\LuigiTechweb\Navigator
 npm run build
 ```
 
-La build viene generata in:
-
-```text
-Server/public/navigator
-```
-
-Poi, con il server acceso, il Navigator integrato è disponibile su:
+Poi aprire:
 
 ```text
 http://localhost:8000/navigator/
@@ -554,71 +556,112 @@ http://localhost:8000/navigator/
 
 ---
 
-## 16. File da non caricare su GitHub
+## 21. File da non caricare su GitHub
 
-Non devono essere caricati:
+Non caricare:
 
 ```text
 node_modules/
 .env
 ```
 
-La configurazione locale deve stare nel file:
+Il file `.env` resta locale.
 
-```text
-Server/.env
-```
-
-mentre su GitHub va caricato solo:
-
-```text
-Server/.env.example
-```
-
-Esempio:
+Esempio configurazione locale:
 
 ```env
 PORT=8000
-MONGO_URI=mongodb://127.0.0.1:27017/site252614
+MONGO_URI=mongodb://127.0.0.1:27017/artaround
 ```
 
 ---
 
-## 17. Miglioramenti futuri
+## 22. Limiti attuali
 
-Possibili sviluppi successivi:
-
-1. aggiungere al backend un modello `Museum` con:
-   - id museo;
-   - nome;
-   - planimetria;
-   - descrizione;
-
-2. aggiungere coordinate reali alla `sequence` delle visite;
-
-3. consentire al Marketplace/Editor di caricare la planimetria del museo;
-
-4. aggiungere una pagina Quiz usando il campo `quiz` già presente nel modello `Visit`;
-
-5. migliorare la sincronizzazione dello stato visita usando:
-   - `GET /api/visits/:id/state`;
-   - `PUT /api/visits/:id/state`.
+- I marker sulla planimetria sono provvisori;
+- la sincronizzazione usa polling, non WebSocket;
+- non è presente autenticazione docente/studente;
+- il pannello docente è accessibile conoscendo il codice visita;
+- nella versione prototipale le risposte corrette del quiz sono presenti nel payload.
 
 ---
 
-## 18. Sintesi delle scelte progettuali
+## 23. Possibili sviluppi futuri
 
-Il Navigator è stato progettato come modulo separato ma integrato nel server unico.
+- aggiungere coordinate reali alle tappe della visita;
+- completare gestione planimetrie per museo;
+- usare WebSocket per sincronizzazione in tempo reale;
+- aggiungere autenticazione e ruoli;
+- nascondere le risposte corrette al client studente;
+- gestire contenuti privati creati dalla docente;
+- esportare risultati del quiz.
 
-Le scelte principali sono:
+---
 
-- Vue 3 + TypeScript per il client;
-- build statica servita da Express sotto `/navigator/`;
-- QR code con solo id museo;
-- planimetria caricata per convenzione da `img/museums/<museumId>/floorplan.png`;
-- normalizzazione dei dati backend in `api.ts`;
-- compatibilità con l'attuale modello `Visit` basato su `sequence`;
-- marker provvisorio in assenza di coordinate reali nel database;
-- menu inferiore semplice in stile app mobile;
-- pagina Opere per verificare i contenuti caricati nel backend;
-- struttura pensata per essere integrabile senza modificare il Marketplace/Editor.
+## 24. File principali modificati
+
+Frontend:
+
+```text
+Navigator/src/router.ts
+Navigator/src/services/api.ts
+Navigator/src/services/syncApi.ts
+Navigator/src/pages/MuseumSelectPage.vue
+Navigator/src/pages/VisitSelectPage.vue
+Navigator/src/pages/ItemsPage.vue
+Navigator/src/pages/NavigatorPage.vue
+Navigator/src/pages/SyncEntryPage.vue
+Navigator/src/pages/SyncStudentPage.vue
+Navigator/src/pages/SyncTeacherPage.vue
+```
+
+Backend:
+
+```text
+Server/Models/visits.js
+Server/Controllers/visitController.js
+Server/Routes/VisitRoutes.js
+```
+
+Build:
+
+```text
+Server/public/navigator/
+```
+
+---
+
+## 25. Comandi Git
+
+Dalla root:
+
+```powershell
+cd C:\progetti\repoluigitechweb\LuigiTechweb
+git status
+```
+
+Aggiungere i file modificati:
+
+```powershell
+git add Navigator/src/router.ts
+git add Navigator/src/services/syncApi.ts
+git add Navigator/src/pages/SyncEntryPage.vue
+git add Navigator/src/pages/SyncStudentPage.vue
+git add Navigator/src/pages/SyncTeacherPage.vue
+git add Server/Models/visits.js
+git add Server/Controllers/visitController.js
+git add Server/Routes/VisitRoutes.js
+git add Server/public/navigator
+```
+
+Commit:
+
+```powershell
+git commit -m "Aggiunge visite sincronizzate docente studenti"
+```
+
+Push:
+
+```powershell
+git push
+```

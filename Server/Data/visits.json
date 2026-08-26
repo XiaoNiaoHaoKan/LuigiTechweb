@@ -1,92 +1,219 @@
 [{
   "_id": {
-    "$oid": "6a7c7587b1ee7748006b33cf"
+    "$oid": "6a8d517c3c087d10ad2da5a8"
   },
-  "title": "Dipinti sala 1 e 2",
-  "synchronized": false,
+  "museumId": "01",
+  "title": "Capolavori del Rinascimento",
+  "synchronized": true,
+  "syncCode": "RINASCIMENTO",
   "currentIndex": 0,
   "isPlaying": false,
   "sequence": [
     {
       "itemId": {
-        "$oid": "6a7c72c5b1ee7748006b33c1"
+        "$oid": "6a8d517c3c087d10ad2da596"
+      },
+      "order": 0,
+      "privateContents": [
+        {
+          "title": "Nota per la docente",
+          "type": "text",
+          "text": "Chiedi al gruppo di descrivere l'opera senza usare il nome dei colori.",
+          "url": "",
+          "_id": {
+            "$oid": "6a8d517c3c087d10ad2da5aa"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "6a8d517c3c087d10ad2da5a9"
+      }
+    },
+    {
+      "itemId": {
+        "$oid": "6a8d517c3c087d10ad2da599"
       },
       "order": 1,
+      "privateContents": [],
       "_id": {
-        "$oid": "6a7c7587b1ee7748006b33d0"
+        "$oid": "6a8d517c3c087d10ad2da5ab"
       }
     },
     {
       "itemId": {
-        "$oid": "6a7c735ab1ee7748006b33c4"
+        "$oid": "6a8d517c3c087d10ad2da59c"
       },
       "order": 2,
+      "privateContents": [],
       "_id": {
-        "$oid": "6a7c7587b1ee7748006b33d1"
+        "$oid": "6a8d517c3c087d10ad2da5ac"
       }
     },
     {
       "itemId": {
-        "$oid": "6a7c749eb1ee7748006b33c7"
+        "$oid": "6a8d517c3c087d10ad2da59f"
       },
       "order": 3,
+      "privateContents": [],
       "_id": {
-        "$oid": "6a7c7587b1ee7748006b33d2"
+        "$oid": "6a8d517c3c087d10ad2da5ad"
       }
     },
     {
       "itemId": {
-        "$oid": "6a7c751eb1ee7748006b33ca"
+        "$oid": "6a8d517c3c087d10ad2da5a2"
       },
       "order": 4,
+      "privateContents": [],
       "_id": {
-        "$oid": "6a7c7587b1ee7748006b33d3"
+        "$oid": "6a8d517c3c087d10ad2da5ae"
+      }
+    },
+    {
+      "itemId": {
+        "$oid": "6a8d517c3c087d10ad2da5a5"
+      },
+      "order": 5,
+      "privateContents": [],
+      "_id": {
+        "$oid": "6a8d517c3c087d10ad2da5af"
       }
     }
   ],
-  "quiz": [],
+  "quiz": [
+    {
+      "question": "Quale elemento guida lo sguardo in un'opera?",
+      "answers": [
+        "La composizione",
+        "Il prezzo",
+        "Il numero di sala"
+      ],
+      "correctIndex": 0,
+      "_id": {
+        "$oid": "6a8d517c3c087d10ad2da5b0"
+      }
+    },
+    {
+      "question": "Botticelli è associato soprattutto a quale periodo?",
+      "answers": [
+        "Rinascimento",
+        "Barocco",
+        "Futurismo"
+      ],
+      "correctIndex": 0,
+      "_id": {
+        "$oid": "6a8d517c3c087d10ad2da5b1"
+      }
+    }
+  ],
+  "quizStarted": false,
+  "quizResults": [],
+  "questions": [],
+  "students": [],
+  "__v": 0,
   "createdAt": {
-    "$date": "2026-08-12T13:30:47.103Z"
+    "$date": "2026-08-25T08:25:32.228Z"
   },
   "updatedAt": {
-    "$date": "2026-08-12T13:30:47.103Z"
-  },
-  "__v": 0
+    "$date": "2026-08-25T08:25:32.228Z"
+  }
 },
 {
   "_id": {
-    "$oid": "6a7c7599b1ee7748006b33db"
+    "$oid": "6a8d517c3c087d10ad2da5b2"
   },
-  "title": "Dipinti sala 1",
+  "museumId": "01",
+  "title": "Osservare l'arte: percorso per scuole",
   "synchronized": false,
   "currentIndex": 0,
   "isPlaying": false,
   "sequence": [
     {
       "itemId": {
-        "$oid": "6a7c72c5b1ee7748006b33c1"
+        "$oid": "6a8d517c3c087d10ad2da595"
       },
-      "order": 1,
+      "order": 0,
+      "privateContents": [
+        {
+          "title": "Nota per la docente",
+          "type": "text",
+          "text": "Chiedi al gruppo di descrivere l'opera senza usare il nome dei colori.",
+          "url": "",
+          "_id": {
+            "$oid": "6a8d517c3c087d10ad2da5b4"
+          }
+        }
+      ],
       "_id": {
-        "$oid": "6a7c7599b1ee7748006b33dc"
+        "$oid": "6a8d517c3c087d10ad2da5b3"
       }
     },
     {
       "itemId": {
-        "$oid": "6a7c735ab1ee7748006b33c4"
+        "$oid": "6a8d517c3c087d10ad2da598"
+      },
+      "order": 1,
+      "privateContents": [],
+      "_id": {
+        "$oid": "6a8d517c3c087d10ad2da5b5"
+      }
+    },
+    {
+      "itemId": {
+        "$oid": "6a8d517c3c087d10ad2da59b"
       },
       "order": 2,
+      "privateContents": [],
       "_id": {
-        "$oid": "6a7c7599b1ee7748006b33dd"
+        "$oid": "6a8d517c3c087d10ad2da5b6"
+      }
+    },
+    {
+      "itemId": {
+        "$oid": "6a8d517c3c087d10ad2da59e"
+      },
+      "order": 3,
+      "privateContents": [],
+      "_id": {
+        "$oid": "6a8d517c3c087d10ad2da5b7"
       }
     }
   ],
-  "quiz": [],
+  "quiz": [
+    {
+      "question": "Quale opera mostra un cielo pieno di vortici?",
+      "answers": [
+        "La notte stellata",
+        "La Gioconda",
+        "David"
+      ],
+      "correctIndex": 0,
+      "_id": {
+        "$oid": "6a8d517c3c087d10ad2da5b8"
+      }
+    },
+    {
+      "question": "Che cosa possiamo osservare davanti a un'opera?",
+      "answers": [
+        "Colori e forme",
+        "Solo il titolo",
+        "Il biglietto"
+      ],
+      "correctIndex": 0,
+      "_id": {
+        "$oid": "6a8d517c3c087d10ad2da5b9"
+      }
+    }
+  ],
+  "quizStarted": false,
+  "quizResults": [],
+  "questions": [],
+  "students": [],
+  "__v": 0,
   "createdAt": {
-    "$date": "2026-08-12T13:31:05.308Z"
+    "$date": "2026-08-25T08:25:32.228Z"
   },
   "updatedAt": {
-    "$date": "2026-08-12T13:31:05.308Z"
-  },
-  "__v": 0
+    "$date": "2026-08-25T08:25:32.228Z"
+  }
 }]
