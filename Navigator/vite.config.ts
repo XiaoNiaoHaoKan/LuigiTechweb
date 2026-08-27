@@ -11,8 +11,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api": "http://localhost:8000",
-      "/data": "http://localhost:8000"
+      "/api": "http://localhost:8001",
+      "/data": "http://localhost:8001"
     }
   }
 });

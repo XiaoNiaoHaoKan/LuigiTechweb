@@ -160,7 +160,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import AppShell from "../layouts/AppShell.vue";
-import { api } from "../services/api";
+import { api, type Museum } from "../services/api";
 import { nextDuration, prevDuration, pickItemByPreference, type Item } from "../utils/itemSelect";
 import MuseumMap from "../components/MuseumMap.vue";
 
@@ -181,8 +181,21 @@ type Visit = {
   steps: VisitStep[];
 };
 
+const museum = ref<Museum | null>(null);
+
+const roomFloorplanUrl = computed(() => {
+  const roomName = currentItem.value?.room;
+  if (!roomName) return "";
+  const room = museum.value?.rooms.find((r) => r.name === roomName);
+  return room?.floorplanUrl || "";
+});
+
 const floorplanSrc = computed(() => {
-  return visit.value?.floorplan ?? `${import.meta.env.BASE_URL}img/museo1-planimetria.png`;
+  return (
+    roomFloorplanUrl.value ||
+    visit.value?.floorplan ||
+    `${import.meta.env.BASE_URL}img/museo1-planimetria.png`
+  );
 });
 
 const currentMarker = computed(() => currentStep.value?.map);
@@ -225,6 +238,7 @@ onMounted(async () => {
     loading.value = true;
     visit.value = await api.getVisit(museumId, visitId);
     items.value = await api.getItems(museumId);
+    museum.value = await api.getMuseum(museumId);
   } catch (e: any) {
     error.value = e?.message ?? "Errore nel caricamento della visita.";
   } finally {

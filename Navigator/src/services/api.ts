@@ -24,7 +24,7 @@ type Visit = {
   steps: VisitStep[];
 };
 
-type Item = {
+export type Item = {
   id: string;
   title?: string;
   duration: string;
@@ -32,6 +32,20 @@ type Item = {
   text: string;
   image?: string;
   subject?: unknown;
+  room?: string;
+};
+
+export type MuseumRoom = {
+  name: string;
+  description?: string;
+  floorplanUrl?: string;
+};
+
+export type Museum = {
+  id: string;
+  name?: string;
+  mapUrl?: string;
+  rooms: MuseumRoom[];
 };
 
 type RawRecord = Record<string, any>;
@@ -189,7 +203,23 @@ function normalizeItem(raw: RawRecord): Item {
     languageLevel: String(raw.languageLevel ?? raw.level ?? raw.language ?? "medio"),
     text: String(raw.text ?? raw.description ?? raw.content ?? raw.title ?? ""),
     image: raw.image ?? raw.imageUrl ?? raw.thumbnail ?? raw.cover,
-    subject: raw.subject
+    subject: raw.subject,
+    room: raw.room
+  };
+}
+
+function normalizeMuseum(raw: RawRecord): Museum {
+  return {
+    id: getId(raw),
+    name: raw.name,
+    mapUrl: raw.mapUrl,
+    rooms: Array.isArray(raw.rooms)
+      ? raw.rooms.map((room: RawRecord) => ({
+          name: String(room?.name ?? ""),
+          description: room?.description,
+          floorplanUrl: room?.floorplanUrl
+        }))
+      : []
   };
 }
 
@@ -282,5 +312,18 @@ export const api = {
       .filter((item) => sameMuseum(item.museumId, museumId))
       .map(normalizeItem)
       .filter((item) => item.id && item.text);
+  },
+
+  async getMuseum(museumId: string): Promise<Museum | null> {
+    if (museumId === "demo-museum") {
+      return null;
+    }
+
+    try {
+      const payload = await getJson<RawRecord>(`/api/museums/${museumId}`);
+      return normalizeMuseum(payload);
+    } catch {
+      return null;
+    }
   }
 };

@@ -36,7 +36,15 @@
           <div class="tag-row mt-3">
             <span class="tag">Durata: {{ item.duration }}</span>
             <span class="tag">Livello: {{ item.languageLevel }}</span>
+            <span v-if="item.room" class="tag">Sala: {{ item.room }}</span>
           </div>
+
+          <img
+            v-if="roomFloorplanFor(item.room)"
+            :src="roomFloorplanFor(item.room)"
+            :alt="`Planimetria sala ${item.room}`"
+            class="items-page__image mt-2"
+          />
         </article>
       </div>
     </div>
@@ -47,7 +55,7 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import AppShell from "../layouts/AppShell.vue";
-import { api } from "../services/api";
+import { api, type Museum } from "../services/api";
 
 type ItemView = {
   id: string;
@@ -56,18 +64,27 @@ type ItemView = {
   languageLevel: string;
   text: string;
   image?: string;
+  room?: string;
 };
 
 const route = useRoute();
 const museumId = String(route.params.museumId);
 
 const items = ref<ItemView[]>([]);
+const museum = ref<Museum | null>(null);
 const loading = ref(true);
 const error = ref("");
+
+function roomFloorplanFor(roomName?: string): string {
+  if (!roomName) return "";
+  const room = museum.value?.rooms.find((r) => r.name === roomName);
+  return room?.floorplanUrl || "";
+}
 
 onMounted(async () => {
   try {
     items.value = await api.getItems(museumId);
+    museum.value = await api.getMuseum(museumId);
   } catch (e: any) {
     error.value = e?.message ?? "Errore nel caricamento delle opere.";
   } finally {

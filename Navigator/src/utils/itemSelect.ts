@@ -6,6 +6,7 @@ export type Item = {
   text: string;
   image?: string;
   subject?: unknown;
+  room?: string;
 };
 
 const durationOrder = ["3s", "15s", "40s", "1min", "4min"] as const;

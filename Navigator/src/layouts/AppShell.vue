@@ -37,6 +37,16 @@
             >
               Mappa
             </a>
+
+            <a
+              v-if="museumMapUrl"
+              class="aa-nav__link"
+              :href="museumMapUrl"
+              target="_blank"
+              rel="noopener"
+            >
+              Mappa del museo
+            </a>
           </nav>
         </header>
 
@@ -54,6 +64,7 @@
 import { computed, ref, watchEffect } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import AppNav from "../components/AppNav.vue";
+import { api } from "../services/api";
 
 defineProps<{
   title: string;
@@ -65,6 +76,8 @@ const selectedMuseumId = ref(
   localStorage.getItem("artarround:selectedMuseumId") ?? ""
 );
 
+const museumMapUrl = ref("");
+
 watchEffect(() => {
   const routeMuseumId = route.params.museumId;
 
@@ -72,6 +85,16 @@ watchEffect(() => {
     selectedMuseumId.value = routeMuseumId;
     localStorage.setItem("artarround:selectedMuseumId", routeMuseumId);
   }
+});
+
+watchEffect(async () => {
+  const museumId = selectedMuseumId.value;
+  museumMapUrl.value = "";
+
+  if (!museumId) return;
+
+  const museum = await api.getMuseum(museumId);
+  museumMapUrl.value = museum?.mapUrl || "";
 });
 
 const showMapLink = computed(() => {
