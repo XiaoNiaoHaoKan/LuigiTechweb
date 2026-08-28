@@ -108,9 +108,9 @@ function go(path: string) {
   width: min(460px, calc(100% - 28px));
   padding: 7px;
   border-radius: 18px;
-  background: rgba(19, 52, 88, 0.95);
+  background: rgba(16, 38, 58, 0.96);
   box-shadow: 0 13px 32px rgba(9, 26, 44, 0.36);
-  border: 1px solid rgba(250, 247, 187, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .app-nav__item {
@@ -119,7 +119,7 @@ function go(path: string) {
   border-radius: 12px;
   padding: 9px 4px 8px;
   background: transparent;
-  color: rgba(250, 247, 187, 0.84);
+  color: rgba(255, 255, 255, 0.78);
   font: inherit;
   cursor: pointer;
   transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
@@ -130,9 +130,9 @@ function go(path: string) {
 }
 
 .app-nav__item--active {
-  background: linear-gradient(145deg, #d99b21, #f3c863);
-  color: #3a2b03;
-  box-shadow: 0 8px 18px rgba(9, 26, 44, 0.35);
+  color: #fff;
+  background: var(--aa-accent);
+  box-shadow: 0 8px 18px rgba(16, 38, 58, 0.32);
 }
 
 .app-nav__item--disabled {
