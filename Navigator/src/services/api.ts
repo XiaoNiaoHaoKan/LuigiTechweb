@@ -24,6 +24,8 @@ type Visit = {
   steps: VisitStep[];
 };
 
+const allItemsVisitId = "all-items";
+
 export type Item = {
   id: string;
   title?: string;
@@ -266,6 +268,22 @@ export const api = {
 
   async getVisit(museumId: string, visitId: string): Promise<Visit> {
     if (museumId === "demo-museum") {
+      if (visitId === allItemsVisitId) {
+        const museumItems = (demoItems as RawRecord[])
+          .map(normalizeItem)
+          .filter((item) => item.id && item.text);
+
+        return {
+          id: allItemsVisitId,
+          title: "Visita libera",
+          steps: museumItems.map((item, index) => ({
+            directions: `Tappa ${index + 1}`,
+            map: getDefaultMarker(index),
+            items: [item.id]
+          }))
+        };
+      }
+
       const demoVisit = getDemoVisitById(visitId);
 
       if (!demoVisit) {
@@ -280,6 +298,23 @@ export const api = {
 
     const visits = asArray(visitsPayload, "visits");
     const items = asArray(itemsPayload, "items");
+
+    if (visitId === allItemsVisitId) {
+      const museumItems = items
+        .filter((item) => sameMuseum(item.museumId, museumId))
+        .map(normalizeItem)
+        .filter((item) => item.id && item.text);
+
+      return {
+        id: allItemsVisitId,
+        title: "Visita libera",
+        steps: museumItems.map((item, index) => ({
+          directions: `Tappa ${index + 1}`,
+          map: getDefaultMarker(index),
+          items: [item.id]
+        }))
+      };
+    }
 
     const itemMuseumById = new Map(
       items

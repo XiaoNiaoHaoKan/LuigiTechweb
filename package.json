@@ -1,0 +1,12 @@
+{
+  "name": "artaround-navigator-workspace",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail \"cd Server && npm start\" \"cd Navigator && npm run dev\"",
+    "dev:server": "cd Server && npm start",
+    "dev:navigator": "cd Navigator && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

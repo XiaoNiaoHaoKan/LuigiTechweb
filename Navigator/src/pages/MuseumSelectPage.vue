@@ -18,8 +18,7 @@
 
       <div class="aa-panel">
         <p class="aa-card__meta">
-          Il QR deve contenere solo l’identificativo del museo, ad esempio
-          <b>demo-museum</b>.
+          Puoi usare il QR del museo o quello di una visita specifica.
         </p>
 
         <div class="home-actions mt-3">
@@ -64,20 +63,61 @@ const router = useRouter();
 const hint = ref("");
 
 function handleDecoded(raw: string) {
-  const museumId = raw.trim();
+  const value = raw.trim();
 
-  if (!museumId) {
+  if (!value) {
     hint.value = "QR vuoto o non leggibile.";
     return;
   }
 
-  // regola: nel QR c’è solo l'id, quindi non accettiamo url o path
-  if (museumId.includes("/") || museumId.includes("?") || museumId.includes("#")) {
-    hint.value = "QR non valido: atteso solo l’identificativo del museo.";
+  let museumId = value;
+  let visitId = "";
+
+  if (value.startsWith("{")) {
+    try {
+      const payload = JSON.parse(value) as {
+        type?: string;
+        museumId?: string;
+        visitId?: string;
+      };
+
+      if (payload.type === "artaroud-museum" && payload.museumId) {
+        museumId = payload.museumId;
+      } else if (
+        payload.type === "artaroud-visit" &&
+        payload.museumId &&
+        payload.visitId
+      ) {
+        museumId = payload.museumId;
+        visitId = payload.visitId;
+      } else {
+        throw new Error("Payload QR non riconosciuto");
+      }
+    } catch {
+      hint.value = "QR non valido: payload ArtAround non riconosciuto.";
+      return;
+    }
+  }
+
+  if (
+    !museumId ||
+    museumId.includes("/") ||
+    museumId.includes("?") ||
+    museumId.includes("#") ||
+    visitId.includes("/") ||
+    visitId.includes("?") ||
+    visitId.includes("#")
+  ) {
+    hint.value = "QR non valido: identificativo museo o visita non valido.";
     return;
   }
+
   localStorage.setItem("artarround:selectedMuseumId", museumId);
-  router.push(`/museums/${museumId}/visits`);
+  router.push(
+    visitId
+      ? `/museums/${museumId}/visits/${visitId}/navigator`
+      : `/museums/${museumId}/visits/all-items/navigator`
+  );
 }
 
 function startDemoVisit() {

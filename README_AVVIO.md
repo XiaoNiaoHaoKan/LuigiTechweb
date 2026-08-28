@@ -95,11 +95,28 @@ npm run build
 
 A questo punto la configurazione della macchina è completa.
 
+### 2.6 Installa il comando di avvio unico
+
+Dalla cartella radice `Navigator/` esegui una volta:
+
+```bash
+npm install
+```
+
 ---
 
 ## 3. Avvio "di tutti i giorni" (dopo la prima configurazione)
 
 Ogni volta che si vuole lavorare sul progetto servono **tre cose in esecuzione**: MongoDB, il Server, e (se si sviluppa il frontend) il Navigator in modalità sviluppo.
+
+Per avviare Server e Navigator con un solo comando:
+
+```bash
+cd Navigator
+npm run dev
+```
+
+Il comando termina entrambi i processi quando viene interrotto con `Ctrl+C`.
 
 ### 3.1 Avvia MongoDB
 
