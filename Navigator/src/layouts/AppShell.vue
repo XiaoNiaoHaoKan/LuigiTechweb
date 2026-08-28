@@ -106,16 +106,23 @@ const showMapLink = computed(() => {
 .app-shell {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% 10%, rgba(250, 247, 187, 0.75) 0%, transparent 38%),
-    radial-gradient(circle at 92% 88%, rgba(217, 155, 33, 0.36) 0%, transparent 40%),
-    linear-gradient(160deg, #133458 0%, #1c4a68 48%, #133458 100%);
+    radial-gradient(
+      circle at 12% 0%,
+      rgba(173, 98, 61, 0.1),
+      transparent 30rem
+    ),
+    radial-gradient(
+      circle at 88% 8%,
+      rgba(23, 50, 77, 0.1),
+      transparent 34rem
+    ),
+    var(--aa-ivory);
 }
 
 .app-shell__overlay {
   min-height: 100vh;
-  background:
-    linear-gradient(180deg, rgba(9, 26, 44, 0.36), rgba(9, 26, 44, 0.72));
   padding: 16px 0 94px;
+  background: transparent;
 }
 
 .app-shell__container {
