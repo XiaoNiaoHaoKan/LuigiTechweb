@@ -63,8 +63,8 @@ const markerStyle = computed(() => ({
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #d99b21;
-  border: 3px solid #faf7bb;
-  box-shadow: 0 0 0 5px rgba(217, 155, 33, 0.25);
+  background: var(--aa-accent);
+  border: 3px solid var(--aa-paper);
+  box-shadow: 0 0 0 5px rgba(173, 98, 61, 0.22);
 }
 </style>
