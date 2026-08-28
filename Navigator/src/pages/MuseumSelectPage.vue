@@ -79,6 +79,7 @@ function handleDecoded(raw: string) {
         type?: string;
         museumId?: string;
         visitId?: string;
+        syncCode?: string;
       };
 
       if (payload.type === "artaroud-museum" && payload.museumId) {
@@ -90,6 +91,10 @@ function handleDecoded(raw: string) {
       ) {
         museumId = payload.museumId;
         visitId = payload.visitId;
+        if (payload.syncCode) {
+          router.push(`/sync?code=${encodeURIComponent(payload.syncCode)}`);
+          return;
+        }
       } else {
         throw new Error("Payload QR non riconosciuto");
       }

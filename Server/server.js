@@ -42,7 +42,7 @@ app.use(
 
 // homepage
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../MarketPlace-Editor/Index.html"));
+  res.redirect("/navigator/");
 });
 
 // luigi: fallback per le route interne del Navigator Vue

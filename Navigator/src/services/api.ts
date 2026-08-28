@@ -93,6 +93,12 @@ function sameMuseum(a: any, b: any): boolean {
   return normalizeMuseumId(a) === normalizeMuseumId(b);
 }
 
+function belongsToMuseumOrIsScoped(a: any, b: string): boolean {
+  const museumId = normalizeMuseumId(a);
+
+  return !museumId || sameMuseum(museumId, b);
+}
+
 function normalizeDuration(value: any): string {
   if (value === 3 || value === "3" || value === "3s") return "3s";
   if (value === 15 || value === "15" || value === "15s") return "15s";
@@ -133,7 +139,7 @@ function visitBelongsToMuseum(
   museumId: string,
   itemMuseumById: Map<string, string>
 ): boolean {
-  if (sameMuseum(visit.museumId, museumId)) {
+  if (belongsToMuseumOrIsScoped(visit.museumId, museumId)) {
     return true;
   }
 
@@ -344,7 +350,7 @@ export const api = {
     const items = asArray(payload, "items");
 
     return items
-      .filter((item) => sameMuseum(item.museumId, museumId))
+      .filter((item) => belongsToMuseumOrIsScoped(item.museumId, museumId))
       .map(normalizeItem)
       .filter((item) => item.id && item.text);
   },

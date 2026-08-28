@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 // Definizione della struttura di una visita nel database.
 const visitSchema = new mongoose.Schema({
+  museumId: { type: mongoose.Schema.Types.Mixed },
   title: { type: String, required: true },
 
   // Visita sincronizzata
@@ -14,6 +15,7 @@ const visitSchema = new mongoose.Schema({
 
   currentIndex: { type: Number, default: 0 },
   isPlaying: { type: Boolean, default: false },
+  quizStarted: { type: Boolean, default: false },
 
   // Sequenza degli item della visita
   sequence: [
@@ -39,6 +41,13 @@ const visitSchema = new mongoose.Schema({
     }
   ],
 
+  students: [
+    {
+      name: String,
+      joinedAt: Date
+    }
+  ],
+
   // Richieste fatte dagli studenti durante la visita
   requests: [
     {
@@ -59,6 +68,13 @@ const visitSchema = new mongoose.Schema({
     }
   ],
 
+  questions: [
+    {
+      text: String,
+      answered: { type: Boolean, default: false }
+    }
+  ],
+
   // Quiz finale
   quizOpen: { type: Boolean, default: false },
 
@@ -76,6 +92,15 @@ const visitSchema = new mongoose.Schema({
       answers: [Number],
       score: Number,
       submittedAt: { type: Date, default: Date.now }
+    }
+  ]
+  ,
+  quizResults: [
+    {
+      studentName: String,
+      answers: [Number],
+      score: Number,
+      completedAt: Date
     }
   ]
 }, { timestamps: true });

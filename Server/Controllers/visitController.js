@@ -164,6 +164,7 @@ export async function activateSyncVisit(req, res) {
     visit.currentIndex = 0;
     visit.isPlaying = false;
     visit.quizOpen = false;
+    visit.quizStarted = false;
 
     await visit.save();
 
@@ -215,6 +216,14 @@ export async function joinSyncVisit(req, res) {
         joinedAt: new Date(),
         lastSeen: new Date()
       });
+    }
+
+    const existingStudent = visit.students.find((student) => {
+      return student.name.toLowerCase() === cleanName.toLowerCase();
+    });
+
+    if (!existingStudent) {
+      visit.students.push({ name: cleanName, joinedAt: new Date() });
     }
 
     await visit.save();
@@ -298,6 +307,10 @@ export async function createSyncRequest(req, res) {
       requestedLanguageLevel,
       createdAt: new Date()
     });
+    visit.questions.push({
+      text: `${String(studentName).trim()}: ${requestType ?? "other"}`,
+      answered: false
+    });
 
     await visit.save();
 
@@ -323,7 +336,12 @@ export async function setSyncQuizOpen(req, res) {
       });
     }
 
-    visit.quizOpen = Boolean(quizOpen);
+    if (typeof quizOpen !== "boolean") {
+      return res.status(400).json({ message: "quizOpen deve essere booleano" });
+    }
+
+    visit.quizOpen = quizOpen;
+    visit.quizStarted = quizOpen;
 
     await visit.save();
 
@@ -384,6 +402,15 @@ export async function submitSyncQuizAnswer(req, res) {
       answers,
       score,
       submittedAt: new Date()
+    });
+    visit.quizResults = visit.quizResults.filter((result) => {
+      return result.studentName.toLowerCase() !== cleanName.toLowerCase();
+    });
+    visit.quizResults.push({
+      studentName: cleanName,
+      answers,
+      score,
+      completedAt: new Date()
     });
 
     await visit.save();

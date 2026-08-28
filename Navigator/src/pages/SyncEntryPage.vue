@@ -34,12 +34,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import AppShell from "../layouts/AppShell.vue";
 
 const router = useRouter();
+const route = useRoute();
 
-const code = ref("RINASCIMENTO");
+const code = ref(String(route.query.code ?? "RINASCIMENTO"));
 const studentName = ref("");
 const error = ref("");
 
