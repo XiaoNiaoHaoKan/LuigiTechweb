@@ -343,7 +343,7 @@ onUnmounted(() => {
 
 .sync-kicker {
   margin-bottom: 8px;
-  color: #615dfa;
+  color: var(--aa-accent);
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -380,14 +380,14 @@ onUnmounted(() => {
   min-height: 32px;
   padding: 0 12px;
   border-radius: 999px;
-  background: #ececf5;
+  background: #f0ebe3;
   color: #555;
   font-size: 13px;
   font-weight: 700;
 }
 
 .sync-pill--active {
-  background: #615dfa;
+  background: var(--aa-accent);
   color: #fff;
 }
 
@@ -417,7 +417,7 @@ onUnmounted(() => {
 
 .quiz-question {
   padding: 18px 0;
-  border-top: 1px solid #ececf5;
+  border-top: 1px solid #f0ebe3;
 }
 
 .quiz-question-title {
