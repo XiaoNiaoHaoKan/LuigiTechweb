@@ -113,10 +113,16 @@ function enterAsTeacher() {
   display: block;
   width: 100%;
   min-height: 46px;
-  border: 1px solid #dedeea;
+  border: 1px solid var(--aa-border);
   border-radius: 12px;
   padding: 0 14px;
   font: inherit;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--aa-accent);
+  box-shadow: 0 0 0 3px rgba(173, 98, 61, 0.18);
 }
 
 .sync-actions {
