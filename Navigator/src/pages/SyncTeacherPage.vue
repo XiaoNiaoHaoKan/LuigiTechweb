@@ -421,7 +421,7 @@ onUnmounted(() => {
 
 .teacher-kicker {
   margin-bottom: 8px;
-  color: #615dfa;
+  color: var(--aa-accent);
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -464,14 +464,14 @@ onUnmounted(() => {
   min-height: 32px;
   padding: 0 12px;
   border-radius: 999px;
-  background: #ececf5;
+  background: #f0ebe3;
   color: #555;
   font-size: 13px;
   font-weight: 700;
 }
 
 .teacher-pill--active {
-  background: #615dfa;
+  background: var(--aa-accent);
   color: #fff;
 }
 
@@ -508,7 +508,7 @@ onUnmounted(() => {
   margin-left: 8px;
   padding: 0 8px;
   border-radius: 999px;
-  background: #ececf5;
+  background: #f0ebe3;
   color: #555;
   font-size: 12px;
   font-weight: 800;
