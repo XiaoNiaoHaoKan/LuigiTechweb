@@ -1,6 +1,7 @@
-# Avvio del Navigator e del Server (locale)
+# Avvio del Navigator
 
-Questo README spiega **come far partire il progetto in locale**: sia il **Server** (Express + MongoDB) sia il **Navigator** (Vue + Vite).
+Questa guida spiega come avviare in locale il **Server** (Express + MongoDB) e il **Navigator** (Vue + Vite).
+I comandi sono riferiti alla cartella radice `Navigator/`, quella che contiene le sottocartelle `Server/` e `Navigator/`.
 
 Il progetto è diviso in due parti:
 
@@ -42,10 +43,11 @@ Se uno di questi comandi non è riconosciuto, installa il software mancante:
 
 Da eseguire **una sola volta** dopo aver clonato il repository.
 
-### 2.1 Clona il repository
+### 2.1 Clona il repository e raggiungi la cartella del progetto
 
 ```bash
 git clone <url-del-repo>
+cd Navigator
 ```
 
 ### 2.2 Installa le dipendenze del Server
@@ -214,7 +216,8 @@ npm run build
 # prerequisiti: Node.js + MongoDB installati
 
 git clone <url-del-repo>
-cd LuigiTechweb-navigator-luigi/Server
+cd Navigator
+cd Server
 npm install
 cp .env.example .env
 
